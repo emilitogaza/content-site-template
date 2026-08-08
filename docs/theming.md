@@ -109,16 +109,19 @@ You almost never edit these — but here's what they do, in `:root` (light) and
 4. Regenerate the icons (§5) so they match the new accent.
 5. Verify light **and** dark (§7).
 
-Do **not** rename the `--color-accent-*` variables — every semantic mapping
-points at those exact names.
+The ramp **may be renamed after its colour** (`blue-*`, `spruce-*`, …) — if you
+do, update every `var(--color-…)` reference in the `--sem-*` blocks (light,
+dark, scrollbar) to the new name. And after any ramp change, check the primary
+button: a dark `-500` stop needs `text-ink-flip` instead of `text-brand-ink`
+in `components/button.tsx` (see AGENTS.md, "Theming quick rules").
 
 ---
 
 ## 5. The icon — generate one from a Lucide glyph
 
-The app icon is a **dark rounded "screen" with the accent-coloured glyph and a
-soft halo**. It's a static SVG (so it uses hex, not CSS variables) plus four
-PNGs rendered from it. You need two accent hex values:
+The app icon is a **dark rounded "screen" with the accent-coloured glyph**.
+It's a static SVG (so it uses hex, not CSS variables) plus four PNGs rendered
+from it. You need two accent hex values:
 
 - **Background** = your `accent-950` (near-black). Default orange: `#150806`.
 - **Glyph** = your `accent-500` (bright). Default orange: `#E9402C`.
@@ -142,7 +145,7 @@ PNGs rendered from it. You need two accent hex values:
 ### 5b. Compose the icon SVG
 
 Drop the glyph's elements into this template. The `transform` scales the 24-unit
-glyph up and centres it; the halo is a wider, low-opacity copy underneath.
+glyph up and centres it.
 
 ```svg
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,23 +154,25 @@ glyph up and centres it; the halo is a wider, low-opacity copy underneath.
         fill="none" stroke="#E9402C" stroke-opacity="0.16" stroke-width="4"/>
   <g transform="translate(112,112) scale(12)"
      fill="none" stroke="#E9402C" stroke-linecap="round" stroke-linejoin="round">
-    <!-- HALO: same paths, wide + faint -->
-    <g stroke-opacity="0.12" stroke-width="5.2">
-      <!-- paste glyph paths here -->
-    </g>
-    <!-- CORE: same paths, solid -->
     <g stroke-opacity="1" stroke-width="2.4">
-      <!-- paste the SAME glyph paths here -->
+      <!-- paste glyph paths here -->
     </g>
   </g>
 </svg>
 ```
 
 Notes:
+- **No halo/outline layer.** An earlier version of this recipe drew a wide,
+  faint copy of the glyph underneath as a glow — don't: on any glyph whose
+  paths overlap or sit close together, the halo strokes overlap each other and
+  read as ugly double outlines.
+- Keep the seemingly redundant `stroke-opacity="1"` on the inner group —
+  ImageMagick's built-in SVG renderer (used in §5d) drops group strokes
+  without an explicit stroke-opacity.
 - `translate(112,112) scale(12)` centres a typical Lucide glyph in the 512
   canvas. If your glyph sits off-centre, nudge the translate values.
-- Stroke widths are in *glyph units* (they scale ×12): `2.4` ≈ a 29px core
-  stroke, `5.2` ≈ a 62px halo. Bump the core to `2.6–2.8` for thin glyphs.
+- Stroke widths are in *glyph units* (they scale ×12): `2.4` ≈ a 29px stroke.
+  Bump to `2.6–2.8` for thin glyphs.
 - Simple glyphs (like `terminal`, a `>` chevron + line) are easier to redraw
   directly at 512-scale than to transform — either approach is fine.
 

@@ -27,12 +27,29 @@ template for Y" — follow this order:
 
 ## Theming quick rules
 
-- All colours come from the ten `--color-accent-*` values in `app/globals.css`.
-  Re-theming = change those ten values (+ the two `themeColor` literals in
-  `app/layout.tsx` and the two colours in `app/manifest.webmanifest`).
-  **Do not rename the `accent-*` variables** — the semantic tokens depend on them.
-- Icons are generated from a Lucide glyph (dark screen + accent glyph + halo,
-  then ImageMagick PNGs incl. a maskable variant). Full recipe: `docs/theming.md`.
+- **One ramp, ten stops.** All colours come from the ten ramp values at the top
+  of `app/globals.css` (+ the two `themeColor` literals in `app/layout.tsx`
+  and the two colours in `app/manifest.webmanifest`). Re-theming = swap those
+  ten values, running lightness from ~96% at `-50` down to ~4% at `-950`.
+- **The ramp may be named after its colour.** It's `accent-*` in this template,
+  but a site can call it `blue-*`, `spruce-*`, whatever reads naturally. If
+  you rename it, update every `var(--color-…)` reference in the `--sem-*`
+  blocks (light theme, dark theme, scrollbar) to match. Components never
+  touch the ramp directly — they use semantic utilities (`bg-fill`,
+  `text-ink`, `text-brand`, …) resolved through `--sem-*` runtime variables,
+  which is what lets `.dark` swap the whole palette at once.
+- **Keep `globals.css` comment-light.** Theming documentation lives here and
+  in `docs/theming.md` — not as comment essays inside the CSS.
+- **Check primary-button contrast after re-theming.** The default Button
+  variant is `bg-brand text-brand-ink`, and `brand-ink` is *dark* in light
+  mode — that only works on bright brand colours (luminous orange, gold,
+  light green). If the ramp's `-500` stop is dark (rough guide: HSL lightness
+  under ~55%, e.g. a deep blue), switch the default variant's text to
+  `text-ink-flip` in `components/button.tsx` so the label reads light-on-dark.
+  Eyeball the primary button in **both** themes either way.
+- Icons are generated from a Lucide glyph (dark screen + accent glyph — no
+  halo/outline layer, it double-strokes on complex shapes), rendered to PNGs
+  incl. a maskable variant with ImageMagick. Full recipe: `docs/theming.md`.
 - The wordmark icon (`app/(course)/layout.tsx`, `components/mobile-nav.tsx`) must
   be the **same** Lucide glyph as the app icon.
 <!-- END:template-rules -->

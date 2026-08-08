@@ -1,6 +1,7 @@
-import { ArrowRight, BookOpen, Clock, FileText, Layers, Sparkle } from "lucide-react";
+import { ArrowRight, ArrowUpRight, BookOpen, Clock, FileText, Layers } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/button";
+import { Marquee } from "@/components/marquee";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { getAllChapters, getSidebarSections } from "@/lib/content";
 
@@ -15,6 +16,27 @@ const HERO_TAGLINE =
 const CTA_LABEL = "Start reading";
 const FOOTER_NOTE = "Built from the Docs Starter template — one Markdown file per page.";
 
+// ── More courses ──────────────────────────────────────────────────────────
+// Manually curated links to the other course sites built from this template.
+// Update this list on every site's landing page when a new course ships.
+const OTHER_COURSES = [
+  {
+    title: "Rökland",
+    href: "https://rokland-story.vercel.app",
+    description: "The history, nature and guide to a corner of Alnö — in Swedish.",
+  },
+  {
+    title: "Fuel Lab",
+    href: "https://nutrition-course-eight.vercel.app",
+    description: "Evidence-based sports nutrition for athletes.",
+  },
+  {
+    title: "Psoriasis & PsA",
+    href: "https://pso-course.vercel.app",
+    description: "Understanding psoriasis and psoriatic arthritis.",
+  },
+];
+
 export default function Home() {
   const chapters = getAllChapters();
   const sections = getSidebarSections();
@@ -24,13 +46,7 @@ export default function Home() {
   const words = chapters.reduce((n, c) => n + c.content.split(/\s+/).length, 0);
   const minutes = Math.max(1, Math.round(words / 200));
 
-  // The marquee needs to be wider than any viewport to loop seamlessly, so
-  // repeat the chapter titles until there are comfortably enough of them.
   const titles = chapters.map((c) => c.title);
-  const marqueeItems = Array.from(
-    { length: Math.max(2, Math.ceil(12 / titles.length)) },
-    () => titles
-  ).flat();
 
   const stats = [
     { icon: FileText, label: `${chapters.length} chapters` },
@@ -113,28 +129,7 @@ export default function Home() {
       </section>
 
       {/* Marquee of chapter titles — a slow, playful conveyor belt. */}
-      <div className="relative border-y border-border/60 py-4">
-        <div className="flex w-max animate-marquee-x-fast motion-reduce:[animation-play-state:paused]">
-          {[0, 1].map((copy) => (
-            <ul
-              key={copy}
-              aria-hidden={copy === 1 || undefined}
-              className="flex shrink-0 items-center"
-            >
-              {marqueeItems.map((title, i) => (
-                <li
-                  // biome-ignore lint/suspicious/noArrayIndexKey: static repeated list
-                  key={`${title}-${i}`}
-                  className="flex items-center whitespace-nowrap text-sm font-semibold uppercase tracking-wider text-ink/40"
-                >
-                  <Sparkle className="mx-6 size-3.5 text-brand/60" />
-                  {title}
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-      </div>
+      <Marquee items={titles} />
 
       {/* Chapter overview */}
       <section
@@ -181,6 +176,35 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Other courses in the family — a manually curated list. */}
+      {OTHER_COURSES.length > 0 && (
+        <section className="mx-auto w-full max-w-6xl px-6 pb-20 md:px-10">
+          <h2 className="text-3xl font-[530] font-stretch-120% tracking-tight text-brand-ink md:text-4xl">
+            More courses
+          </h2>
+          <p className="mt-2 text-ink/60">
+            Same recipe, different topics — more little courses like this one.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {OTHER_COURSES.map((course) => (
+              <a
+                key={course.href}
+                href={course.href}
+                className="group flex flex-col gap-1 rounded-4 bg-fill-raised p-5 transition-colors hover:bg-brand/10"
+              >
+                <span className="flex items-center gap-2 font-semibold text-brand-ink">
+                  {course.title}
+                  <ArrowUpRight className="size-4 shrink-0 -translate-x-1 translate-y-1 text-brand opacity-0 transition-all group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100" />
+                </span>
+                <span className="text-sm leading-snug text-ink/60">
+                  {course.description}
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       <footer className="border-t border-border/60 px-6 py-8 text-center text-sm text-ink/50">
         {FOOTER_NOTE}

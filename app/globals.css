@@ -4,13 +4,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    /* Accent — THE ONE RAMP YOU RE-THEME. Every UI colour maps onto these ten
-       stops via the `--sem-*` tokens below, so re-theming the whole site is a
-       matter of changing these ten values (keep the variable NAMES as-is).
-       Pick one hue, keep it (or drift it a touch), and run the lightness from
-       ~96% at `-50` down to ~4% at `-950`. See docs/theming.md.
-
-       Default: a warm orange (hue ~10). */
+    /* Accent — the brand ramp. Semantic tokens below map onto these per theme.
+       Theming docs: AGENTS.md + docs/theming.md. */
     --color-accent-50: hsl(10, 60%, 97%);
     --color-accent-100: hsl(10, 58%, 93%);
     --color-accent-200: hsl(10, 56%, 85%);
@@ -85,10 +80,7 @@
     --animate-fade-in: fade-in 300ms ease-out both;
 }
 
-/* Semantic color tokens resolve through these `--sem-*` runtime variables so a
-   `.dark` root can swap the whole palette. `@theme inline` inlines each value
-   into its utility (e.g. `bg-fill` → `var(--sem-fill)`), which is what lets the
-   `.dark` override win at the element instead of freezing at `:root`. */
+/* Semantic tokens — resolved through `--sem-*` so `.dark` can swap the palette. */
 @theme inline {
     /* Base */
     --color-ink: var(--sem-ink);
