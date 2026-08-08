@@ -194,11 +194,16 @@ magick -background none -density 384 app/icon.svg           -resize 512x512 "$OU
 magick -background none -density 384 app/icon.svg           -resize 192x192 "$OUT/icon-192x192.png"
 magick -background none -density 384 icon-maskable.svg      -resize 512x512 "$OUT/icon-512x512-maskable.png"
 magick -background none -density 384 icon-maskable.svg      -resize 192x192 "$OUT/icon-192x192-maskable.png"
+magick "$OUT/icon-512x512.png" -define icon:auto-resize=48,32,16 app/favicon.ico
 ```
 
 (`icon-maskable.svg` is a scratch file — it doesn't need to ship.) The manifest
 at `app/manifest.webmanifest` already references all four PNGs plus the SVG; you
 don't edit it for icons unless you add sizes.
+
+**Don't skip `app/favicon.ico`** — modern browsers use the SVG, but services
+that fetch `/favicon.ico` directly (the Vercel dashboard's project avatar,
+older crawlers, RSS readers) fall back to a framework logo without it.
 
 ### 5e. Update the wordmark
 
@@ -259,5 +264,6 @@ pnpm build
 - [ ] `app/manifest.webmanifest` — `background_color`, `theme_color`, `name`, `short_name`, `description`
 - [ ] `app/icon.svg` + `public/icons/icon.svg` — new glyph, accent hexes
 - [ ] `public/icons/icon-{192,512}x{192,512}{,-maskable}.png` — regenerated (×4)
+- [ ] `app/favicon.ico` — regenerated from the 512 PNG
 - [ ] `app/(course)/layout.tsx` + `components/mobile-nav.tsx` — wordmark icon + text
 - [ ] Verified in light **and** dark; `pnpm build` passes

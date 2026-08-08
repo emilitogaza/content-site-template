@@ -38,7 +38,8 @@ export default function Home() {
     { icon: Layers, label: `${sections.length} sections` },
   ];
 
-  let chapterNumber = 0;
+  // Global chapter numbers in reading order, shared across the section groups.
+  const numberBySlug = new Map(chapters.map((c, i) => [c.slug, i + 1]));
 
   return (
     <main className="relative flex flex-1 flex-col overflow-hidden">
@@ -152,7 +153,6 @@ export default function Home() {
               </p>
               <div className="grid gap-4 sm:grid-cols-2">
                 {group.chapters.map((chapter) => {
-                  chapterNumber += 1;
                   return (
                     <Link
                       key={chapter.slug}
@@ -160,7 +160,7 @@ export default function Home() {
                       className="group flex items-start gap-4 rounded-4 bg-fill-raised p-5 transition-colors hover:bg-brand/10"
                     >
                       <span className="mt-0.5 text-sm font-semibold tabular-nums text-brand">
-                        {String(chapterNumber).padStart(2, "0")}
+                        {String(numberBySlug.get(chapter.slug)).padStart(2, "0")}
                       </span>
                       <span className="flex min-w-0 flex-col gap-1">
                         <span className="flex items-center gap-2 font-semibold text-brand-ink">

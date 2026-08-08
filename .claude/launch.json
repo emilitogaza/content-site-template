@@ -7,6 +7,20 @@
       "runtimeArgs": ["dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "pso",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "/Users/emilgs/ReactProjects/pso-course", "dev"],
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "rokland",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "/Users/emilgs/ReactProjects/rokland-story", "dev"],
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }
