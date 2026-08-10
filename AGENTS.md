@@ -46,7 +46,9 @@ template for Y" — follow this order:
   light green). If the ramp's `-500` stop is dark (rough guide: HSL lightness
   under ~55%, e.g. a deep blue), switch the default variant's text to
   `text-ink-flip` in `components/button.tsx` so the label reads light-on-dark.
-  Eyeball the primary button in **both** themes either way.
+  The other extreme: on a very bright/neon `-500` (high luminance), use
+  `text-fill-dark` so the label stays dark in *both* themes. Eyeball the
+  primary button in **both** themes either way.
 - Icons are generated from a Lucide glyph (dark screen + accent glyph — no
   halo/outline layer, it double-strokes on complex shapes), rendered to PNGs
   incl. a maskable variant with ImageMagick. Full recipe: `docs/theming.md`.

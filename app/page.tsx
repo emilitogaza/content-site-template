@@ -35,6 +35,21 @@ const OTHER_COURSES = [
     href: "https://pso-course.vercel.app",
     description: "Understanding psoriasis and psoriatic arthritis.",
   },
+  {
+    title: "Port 22",
+    href: "https://ssh-course.vercel.app",
+    description: "How SSH, servers, and keys actually work.",
+  },
+  {
+    title: "Från jord till bord",
+    href: "https://fran-jord-till-bord.vercel.app",
+    description: "How farming works in Sweden — from soil to table.",
+  },
+  {
+    title: "Watt's Up",
+    href: "https://watts-up.vercel.app",
+    description: "How electricity actually works — from electrons to the grid.",
+  },
 ];
 
 export default function Home() {
