@@ -21,7 +21,7 @@ export default function CourseLayout({ children }: { children: React.ReactNode }
             href="/"
             className="flex items-center gap-2 text-base font-semibold text-brand-ink"
           >
-            <BookOpen className="size-5 text-brand" />
+            <BookOpen className="icon-5 text-brand" />
             Docs Starter
           </Link>
           <ThemeToggle />
