@@ -24,6 +24,19 @@ template for Y" — follow this order:
    end-to-end (colour ramp, browser/manifest colours, icon SVG + PNGs, wordmark).
 4. **Name the site** — `SITE_*` in `app/layout.tsx`, the manifest fields, and the
    wordmark text (see `docs/theming.md` §6).
+5. **Wire up the course family.** The `OTHER_COURSES` list in `app/page.tsx`
+   holds a link card for **every published course** built from this template,
+   and a fresh copy inherits the full list — that's intended. A site links to
+   every course except itself, and since the new course isn't in the inherited
+   list yet, there's nothing to remove on the new site. When the new course
+   ships (has its Vercel URL), close the loop:
+   - **Add it to this template's** `OTHER_COURSES` list, so every future copy
+     inherits it.
+   - **Add it to the `OTHER_COURSES` list of every existing course site** —
+     they're sibling folders in `ReactProjects/`; find them with
+     `grep -l "OTHER_COURSES" ../*/app/page.tsx`. Match each site's language
+     (e.g. Rökland's descriptions are Swedish, with a "på engelska" note for
+     English courses).
 
 ## Theming quick rules
 

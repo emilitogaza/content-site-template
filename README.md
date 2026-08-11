@@ -37,10 +37,17 @@ Open [http://localhost:3000](http://localhost:3000).
    `app/manifest.webmanifest`, the wordmark text, and the landing copy at the
    top of `app/page.tsx` (the hero, chapter grid, stats, and marquee fill
    themselves in from `content/`).
+4. **Wire up the course family** — the `OTHER_COURSES` list in `app/page.tsx`
+   links every course built from this template, and your new copy inherits the
+   full list. When the new course ships, add it to **this template's** list
+   *and* to the list on **every existing course site** (sibling folders in
+   `ReactProjects/`), so all courses link to everything but themselves.
+   Details in [`AGENTS.md`](AGENTS.md) step 5.
 
 Working with an AI agent (Claude)? Just say *"build a site about X from this
 template, blue theme, rocket icon"* — the rules in [`AGENTS.md`](AGENTS.md) tell
-it to ask for the theme + icon, write the content, and re-skin everything.
+it to ask for the theme + icon, write the content, re-skin everything, and
+cross-link the new course into every existing course site.
 
 ## Project structure
 
